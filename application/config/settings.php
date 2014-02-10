@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
-// Input your LDAP server Infomation
+// Input your LDAP server Infomation k
 $config['ldapServer'] = 'ldap.rocky.edu';
 $config['ldapDCRoot'] = 'dc=rocky,dc=edu';
 $config['bindUser'] = 'cn=manager,dc=rocky,dc=edu';
