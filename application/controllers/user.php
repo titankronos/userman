@@ -20,12 +20,12 @@ class User extends CI_Controller
     }
 
     // Load models
-    $this->load->model('ldap_model');
+    $this->load->model('user_model');
 
     // Get initial user infomation
     $user = $this->session->userdata('username');
 
-    $data = $this->ldap_model->get_user($user);
+    $data = $this->user_model->get_user($user);
 
     // Load Views
     $this->load->view('header');
@@ -48,7 +48,7 @@ class User extends CI_Controller
     $this->load->library(array('form_validation','email'));
 
     // Load models
-    $this->load->model('ldap_model');
+    //$this->load->model('ldap_model');
 
     // Set Validation Rules
     $this->form_validation->set_rules('phone', 'Phone', 'min_length[10]');

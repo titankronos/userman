@@ -14,13 +14,13 @@ This is the admin
       <div class="control-group">
         <label class="control-label" for="first_name">First Name</label>
         <div class="controls">
-          <input type="text" readonly="true" name="first_name" value="<?=$first_name?>" />
+          <input type="text" name="first_name" value="<?=$first_name?>" />
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="last_name">Last Name</label>
         <div class="controls">
-          <input type="text" readonly="true" name="last_name" value="<?=$last_name?>" />
+          <input type="text" name="last_name" value="<?=$last_name?>" />
         </div>
       </div>
 

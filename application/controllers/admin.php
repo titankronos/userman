@@ -14,11 +14,11 @@ class Admin extends CI_Controller
       redirect(site_url("/welcome"));
     }
     // Load models
-    $this->load->model('ldap_model');
+    $this->load->model('user_model');
 
     // Get initial user infomation
     $user = $this->session->userdata('username');
-    $data = $this->ldap_model->get_user($user);
+    $data = $this->user_model->get_user($user);
     
     //print_r($data);
 
