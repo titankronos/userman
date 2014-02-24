@@ -47,22 +47,12 @@
           <a class="brand">Userman</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
-              <?php if($this->session->userdata('username')) : ?>
-                Logged in as <?=$this->session->userdata('username')?>
+              <?php if($this->session->userdata('key') != -1) : ?>
+                <a href="<?=site_url('/welcome/logout')?>">Log Out</a>
               <?php else : ?>
                 Not Logged In
               <?php endif; ?>
             </p>
-            <ul class="nav">
-              <li class="active"><a href="<?=site_url()?>">Home</a></li>
-<!--
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
--->
-              <?php if($this->session->userdata('username')) : ?>
-              <li><a href="<?=site_url('/welcome/logout')?>">Log Out</a></li>
-              <?php endif; ?>
-            </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
