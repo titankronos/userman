@@ -32,22 +32,44 @@
       }
     }
 
-    function get_user($username)
+    function find_user($username)
+    {
+      foreach ($this->data as $key=>$item)
+      {
+        if($item['username'] === $username)
+        {
+          return $key;
+        } else {
+          return FALSE; // No user found return false
+        }
+      }
+    }
+
+    function search_users($search_term)
+    {
+      foreach ($this->data as $key=>$item)
+      {
+        if (stristr($item, $search_term))
+          return $key;
+      }
+    }
+
+    function get_user($key)
     {
       $user['username'] = $username;
-      $user['first_name'] = $this->data[0]['first_name'];
-      $user['last_name'] = $this->data[0]['last_name'];
-      $user['phone'] = '';
+      $user['first_name'] = $this->data[$key]['first_name'];
+      $user['last_name'] = $this->data[$key]['last_name'];
+      $user['phone'] = $this->data[$key]['phone'];
       //// Current Address
-      $user['cur_street'] = '';
-      $user['cur_city'] = '';
-      $user['cur_state'] = '';
-      $user['cur_zip'] = '';
+      $user['cur_street'] = $this->data[$key]['cur_street'];
+      $user['cur_city'] = $this->data[$key]['cur_city'];
+      $user['cur_state'] = $this->data[$key]['cur_state'];
+      $user['cur_zip'] = $this->data[$key]['cur_zip'];
       // Permenent Address
-      $user['perm_street'] = '';
-      $user['perm_city'] = '';
-      $user['perm_state'] = '';
-      $user['perm_zip'] = '';
+      $user['perm_street'] = $this->data[$key]['perm_street'];
+      $user['perm_city'] = $this->data[$key]['perm_city'];
+      $user['perm_state'] = $this->data[$key]['perm_state'];
+      $user['perm_zip'] = $this->data[$key]['perm_zip'];
       return $user;
     }
 

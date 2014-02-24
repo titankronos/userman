@@ -29,6 +29,9 @@ class Welcome extends CI_Controller
     // Load Helpers
     $this->load->helper('panel');
 
+    // Load Models
+    $this->load->model('user_model');
+
     // Get Configuration Items
     $managers = $this->config->item('managers');
     $admins = $this->config->item('admins');
@@ -39,7 +42,11 @@ class Welcome extends CI_Controller
       $username = preg_replace("/[^a-zA-Z0-9.]/", "", $_POST['username']);
 
       // Auth the user
-      if (TRUE) //FIXME
+
+      $key = $this->user_model->find_user($username);
+      die("Key is: $key");
+
+      if ($key = $this->user_model->find_user($username))
       {
 
         // Set the username in a cookie
