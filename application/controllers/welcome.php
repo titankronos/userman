@@ -42,15 +42,12 @@ class Welcome extends CI_Controller
       $username = preg_replace("/[^a-zA-Z0-9.]/", "", $_POST['username']);
 
       // Auth the user
-
       $key = $this->user_model->find_user($username);
-      die("Key is: $key");
 
-      if ($key = $this->user_model->find_user($username))
+      if (isset($key) && $key != -1)
       {
-
         // Set the username in a cookie
-        $this->session->set_userdata('username', $username);
+        $this->session->set_userdata('key', $key);
         $this->session->set_userdata('password', $password);
 
         // Find access level of user
@@ -69,7 +66,8 @@ class Welcome extends CI_Controller
           // Default redirect to user panel
           $this->session->set_userdata('access', 'user');
         }
-          redirect(panelSelector($this->session->userdata('access')));
+        // Redirect to the approiate page
+        redirect(panelSelector($this->session->userdata('access')));
       }
       // Can't find a valid user
       $this->session->set_flashdata('message', 'Invalid Username or Password');

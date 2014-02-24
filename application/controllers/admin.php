@@ -17,9 +17,9 @@ class Admin extends CI_Controller
     $this->load->model('user_model');
 
     // Get initial user infomation
-    $user = $this->session->userdata('username');
-    $data = $this->user_model->get_user($user);
-    
+    $key = $this->session->userdata('key');
+    $data = $this->user_model->get_user($key);
+
     //print_r($data);
 
     // Load Views

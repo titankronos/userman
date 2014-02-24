@@ -23,9 +23,9 @@ class User extends CI_Controller
     $this->load->model('user_model');
 
     // Get initial user infomation
-    $user = $this->session->userdata('username');
+    $key = $this->session->userdata('key');
 
-    $data = $this->user_model->get_user($user);
+    $data = $this->user_model->get_user($key);
 
     // Load Views
     $this->load->view('header');
@@ -73,10 +73,6 @@ class User extends CI_Controller
     {
       if($this->form_validation->run()) // Form successfully validated
       {
-        // Setup Variables
-        $dn = $this->session->userdata('dn');
-        $password = $this->session->userdata('password');
-        
         // Load Configuration Items
         $email = $this->config->item('email');
         
@@ -127,7 +123,7 @@ class User extends CI_Controller
           $data['st'] = $cur_state;
           $data['postalcode'] = $cur_zip;
           
-          if ($this->ldap_model->set_user($dn, $password, $data))
+          if ($this->user_model->set_user($dn, $password, $data))
           {
             // Send the email
             //$this->email->send();

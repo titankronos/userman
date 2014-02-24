@@ -47,7 +47,7 @@
           <a class="brand">Userman</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
-              <?php if($this->session->userdata('key') != -1) : ?>
+              <?php if($this->session->userdata('access')) :?>
                 <a href="<?=site_url('/welcome/logout')?>">Log Out</a>
               <?php else : ?>
                 Not Logged In

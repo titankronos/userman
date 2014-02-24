@@ -1,4 +1,3 @@
-This is the admin
 <div class="span9">
 <p>Please update your infomation below. All fields are required except for cell number.</p>
   <form class="well form-horizontal" method="post" action="<?=site_url('user/process')?>">
@@ -203,6 +202,20 @@ This is the admin
           <label class="control-label" for="perm_zip">Zip</label>
           <div class="controls">
             <input type="text" name="perm_zip" value="<?=$perm_zip?>" />
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Password</legend>
+        <p>Leave blank to not change</p>
+        <div class="control-group">
+          <label class="control-label" for="password1">Password</label>
+          <div class="controls">
+            <input type="password" name="password1" />
+          </div>
+          <label class="control-label" for="password2">Confirm Password</label>
+          <div class="controls">
+            <input type="password" name="password2" />
           </div>
         </div>
       </fieldset>

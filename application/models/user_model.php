@@ -39,10 +39,9 @@
         if($item['username'] === $username)
         {
           return $key;
-        } else {
-          return FALSE; // No user found return false
         }
       }
+      return -1; // No user found
     }
 
     function search_users($search_term)
@@ -56,7 +55,7 @@
 
     function get_user($key)
     {
-      $user['username'] = $username;
+      $user['username'] = $this->data[$key]['username'];
       $user['first_name'] = $this->data[$key]['first_name'];
       $user['last_name'] = $this->data[$key]['last_name'];
       $user['phone'] = $this->data[$key]['phone'];

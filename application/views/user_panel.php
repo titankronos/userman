@@ -211,6 +211,26 @@
           </div>
         </div>
       </fieldset>
+      <fieldset>
+        <legend>Password</legend>
+        <p>Leave blank to not change</p>
+        <div class="control-group">
+          <label class="control-label" for="cur_password">Current Password</label>
+          <div class="controls">
+            <input type="password" name="cur_password" />
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="password1">Password</label>
+          <div class="controls">
+            <input type="password" name="password1" />
+          </div>
+          <label class="control-label" for="password2">Confirm Password</label>
+          <div class="controls">
+            <input type="password" name="password2" />
+          </div>
+        </div>
+      </fieldset>
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">Save changes</button>
         <button class="btn">Cancel</button>
