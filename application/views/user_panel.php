@@ -1,38 +1,40 @@
 <div class="span9">
 <p>Please update your infomation below. All fields are required except for cell number.</p>
+
 <?php if(validation_errors()) : ?>
 <div class="alert">
   <a class="close" data-dismiss="alert">×</a>
   <?=validation_errors()?>
 </div>
 <?php endif; ?>
-  <form class="well form-horizontal" method="post" action="<?=site_url('user/process')?>">
+
+  <form class="well form-horizontal" method="post" action="<?=site_url('user')?>">
     <fieldset>
       <legend>Personal Infomation</legend>
       <div class="control-group">
         <label class="control-label" for="username">User Name</label>
         <div class="controls">
-          <input type="text" readonly="true" name="username" value="<?=$this->session->userdata('username')?>" />
+          <input type="text" readonly="true" name="username" value="<?=$username?>" />
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label" for="first_name">First Name</label>
         <div class="controls">
-          <input type="text" readonly="true" name="first_name" value="<?=set_value('first_name')?>" />
+          <input type="text" readonly="true" name="first_name" value="<?=$first_name?>" />
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="last_name">Last Name</label>
         <div class="controls">
-          <input type="text" readonly="true" name="last_name" value="<?=set_value('last_name')?>" />
+          <input type="text" readonly="true" name="last_name" value="<?=$last_name?>" />
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label" for="phone">Cell Number</label>
         <div class="controls">
-          <input type="text" name="phone" value="<?=set_value('phone')?>" placeholder="(XXX) XXX-XXXX" />
+          <input type="text" name="phone" value="<?=$phone?>" placeholder="(XXX) XXX-XXXX" />
         </div>
       </div>
       <fieldset>
@@ -40,21 +42,21 @@
         <div class="control-group">
           <label class="control-label" for="cur_street">Street</label>
           <div class="controls">
-            <input type="text" name="cur_street" value="<?=set_value('cur_street')?>" />
+            <input type="text" name="cur_street" value="<?=$cur_street?>" />
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="cur_city">City</label>
           <div class="controls">
-            <input type="text" name="cur_city" value="<?=set_value('cur_city')?>" />
+            <input type="text" name="cur_city" value="<?=$cur_city?>" />
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="cur_state">State</label>
           <div class="controls">
             <select id="cur_state" name="cur_state">
-              <?php if(set_value('cur_state')) : ?>
-                <option value="<?=set_value('cur_state')?>"><?=set_value('cur_state')?></option>
+              <?php if(isset($cur_state)) : ?>
+                <option value="<?=$cur_state?>"><?=$cur_state?></option>
               <?php else : ?>
                 <option value="None">None</option>
               <?php endif; ?>
@@ -115,7 +117,7 @@
         <div class="control-group">
           <label class="control-label" for="cur_zip">Zip</label>
           <div class="controls">
-            <input type="text" name="cur_zip" value="<?=set_value('cur_zip')?>" />
+            <input type="text" name="cur_zip" value="<?=$cur_zip?>" />
           </div>
         </div>
         <div class="control-group">
@@ -132,21 +134,21 @@
         <div class="control-group">
           <label class="control-label" for="perm_street">Street</label>
           <div class="controls">
-            <input type="text" name="perm_street" value="<?=set_value('perm_street')?>" />
+            <input type="text" name="perm_street" value="<?=$perm_street?>" />
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="perm_city">City</label>
           <div class="controls">
-            <input type="text" name="perm_city" value="<?=set_value('perm_city')?>" />
+            <input type="text" name="perm_city" value="<?=$perm_city?>" />
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="perm_state">State</label>
           <div class="controls">
             <select id="perm_state" name="perm_state">
-              <?php if(set_value('perm_state')) : ?>
-                <option value="<?=set_value('perm_state')?>"><?=set_value('perm_state')?></option>
+              <?php if(isset($perm_state)) : ?>
+                <option value="<?=$perm_state?>"><?=$perm_state?></option>
               <?php else : ?>
                 <option value="None">None</option>
               <?php endif; ?>
@@ -207,13 +209,13 @@
         <div class="control-group">
           <label class="control-label" for="perm_zip">Zip</label>
           <div class="controls">
-            <input type="text" name="perm_zip" value="<?=set_value('perm_zip')?>" />
+            <input type="text" name="perm_zip" value="<?=$perm_zip?>" />
           </div>
         </div>
       </fieldset>
       <fieldset>
         <legend>Password</legend>
-        <p>Leave blank to not change</p>
+        <p>Leave blank to keep unchanged</p>
         <div class="control-group">
           <label class="control-label" for="cur_password">Current Password</label>
           <div class="controls">
@@ -221,7 +223,7 @@
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" for="password1">Password</label>
+          <label class="control-label" for="password1">New Password</label>
           <div class="controls">
             <input type="password" name="password1" />
           </div>

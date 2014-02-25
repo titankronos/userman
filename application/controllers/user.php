@@ -2,6 +2,12 @@
 
 class User extends CI_Controller
 {
+    function __construct()
+  {
+    parent::__construct();
+    $this->load->library(array('form_validation'));
+  }
+
   public function index()
   {
     /*
@@ -19,36 +25,8 @@ class User extends CI_Controller
       redirect(site_url("/welcome"));
     }
 
-    // Load models
+    // Load model(s)
     $this->load->model('user_model');
-
-    // Get initial user infomation
-    $key = $this->session->userdata('key');
-
-    $data = $this->user_model->get_user($key);
-
-    // Load Views
-    $this->load->view('header');
-    $this->load->view('sidebar');
-    $this->load->view('user_panel_index', $data);
-    $this->load->view('footer');
-    $this->load->view('user_panel-JS');
-
-  }
-
-  public function process()
-  {
-    /*
-      This function takes the form data makes the changes in LDAP (TODO) and 
-      emails the change.of.address@rocky.edu folks to let them know there has
-      been a change.
-    */
-
-    // Load Libraries
-    $this->load->library(array('form_validation','email'));
-
-    // Load models
-    //$this->load->model('ldap_model');
 
     // Set Validation Rules
     $this->form_validation->set_rules('phone', 'Phone', 'min_length[10]');
@@ -69,79 +47,90 @@ class User extends CI_Controller
     // Make the missing state error message more friendly
     $this->form_validation->set_message('exact_length', 'State can not be "None"');
 
-    if($_POST)
+    if($this->form_validation->run()) // Form successfully validated
     {
-      if($this->form_validation->run()) // Form successfully validated
-      {
-        // Load Configuration Items
-        $email = $this->config->item('email');
-        
-        $first_name = $this->input->post('first_name');
-        $last_name = $this->input->post('last_name');
-        $phone = preg_replace("/[^0-9]/", "", $this->input->post('phone'));
+      // Set variables
+      $user = array();
 
-        $cur_street = $this->input->post('cur_street');
-        $cur_city = $this->input->post('cur_city');
-        $cur_state = $this->input->post('cur_state');
-        $cur_zip = $this->input->post('cur_zip');
+      $user['first_name']   = $this->input->post('first_name');
+      $user['last_name']    = $this->input->post('last_name');
+      $user['phone']        = preg_replace("/[^0-9]/", "", $this->input->post('phone'));
 
-        $perm_street = $this->input->post('perm_street');
-        $perm_city = $this->input->post('perm_city');
-        $perm_state = $this->input->post('perm_state');
-        $perm_zip = $this->input->post('perm_zip');
+      $user['cur_street']   = $this->input->post('cur_street');
+      $user['cur_city']     = $this->input->post('cur_city');
+      $user['cur_state']    = $this->input->post('cur_state');
+      $user['cur_zip']      = $this->input->post('cur_zip');
 
-        // Compose message to send.
-        $message = "Please update the address for the following user\n\n";
-        $message .= "Phone Number: $phone\n\n";
-        $message .= "Current Address\n";
-        $message .= "\t $first_name $last_name \n";
-        $message .= "\t $cur_street \n";
-        $message .= "\t $cur_city, $cur_state $cur_zip\n";
-        $message .= "\n \n";
-        $message .= "Permanent Address\n";
-        $message .= "\t $first_name $last_name\n";
-        $message .= "\t $perm_street\n";
-        $message .= "\t $perm_city, $perm_state $perm_zip\n";
+      $user['perm_street']  = $this->input->post('perm_street');
+      $user['perm_city']    = $this->input->post('perm_city');
+      $user['perm_state']   = $this->input->post('perm_state');
+      $user['perm_zip']     = $this->input->post('perm_zip');
 
-        // Send the email to alert of the change
-        $this->email->from('support@rocky.edu', 'RMC Support');
-        $this->email->to($email);
-
-        $this->email->subject("[Address Change] Change of Address for $first_name $last_name");
-        $this->email->message($message);
-
-        // Make sure that it is a valid session
-        $access = $this->session->userdata('access');
-
-        if (($access == 'user') || ($access == 'admin') || ($access == 'manager'))
-        {
-          // Change the ldap infomation
-          $data['mobile'] = $phone;
-
-          $data['street'] = $cur_street;
-          $data['postaladdress'] = $cur_city;
-          $data['st'] = $cur_state;
-          $data['postalcode'] = $cur_zip;
-          
-          if ($this->user_model->set_user($dn, $password, $data))
-          {
-            // Send the email
-            //$this->email->send();
-            redirect(site_url('/success'));
-          }
-        }
-
-        $this->session->set_flashdata('message', 'There was an error submitting data, no changes made (Err# 01)');
-        redirect(site_url("/error"));
-      }
-      // Form validation not successful
+      // Process the form
+      $this->process($user);
     }
+
+    // Get initial user infomation
+    $key = $this->session->userdata('key');
+    $data = $this->user_model->get_user($key);
 
     // Load Views
     $this->load->view('header');
     $this->load->view('sidebar');
-    $this->load->view('user_panel');
+    $this->load->view('user_panel', $data);
     $this->load->view('footer');
     $this->load->view('user_panel-JS');
+
+  }
+
+  public function process($user)
+  {
+    /*
+      This function takes the form data makes the changes in LDAP (TODO) and 
+      emails the change.of.address@rocky.edu folks to let them know there has
+      been a change.
+    */
+
+    // Load Libraries
+    $this->load->library(array('email'));
+
+    // Load models
+    $this->load->model('user_model');
+
+    // Load Configuration Items
+    $email = $this->config->item('email');
+
+    // Compose message to send.
+    $message = "Please update the address for the following user\n\n";
+    $message .= "Phone Number: ".$user['phone']."\n\n";
+    $message .= "Current Address\n\t";
+    $message .= $user['first_name'].' '.$user['last_name']."\n\t";
+    $message .= $user['cur_street']."\n\t";
+    $message .= $user['cur_city'].", ".$user['cur_state']." ".$user['cur_zip'];
+    $message .= "\n\n\n";
+    $message .= "Permanent Address\n\t";
+    $message .= $user['first_name']." ".$user['last_name']."\n\t";
+    $message .= $user['perm_street']."\n\t";
+    $message .= $user['perm_city'].", ".$user['perm_state']." ".$user['perm_zip'];
+
+    // Send the email to alert of the change
+    $this->email->from('support@rocky.edu', 'RMC Support');
+    $this->email->to($email);
+
+    $this->email->subject("[Address Change] Change of Address for".$user['first_name']." ".$user['last_name']);
+    $this->email->message($message);
+
+    // Make sure that it is a valid session
+    $access = $this->session->userdata('access');
+
+    if (($access == 'user') || ($access == 'admin') || ($access == 'manager'))
+    {
+      // Send the email
+      //$this->email->send();
+      //redirect(site_url('/success'));
+      print_r($message);
+    }
+    $this->session->set_flashdata('message', 'There was an error submitting data, no changes made (Err# 01)');
+    redirect(site_url("/error"));
   }
 }
