@@ -21,12 +21,16 @@ class User extends CI_Controller
     if (($access != 'user') && ($access != 'admin'))
     {
       // User is not logged in so can't view the page
-      $this->session->set_flashdata('message', 'Not authorized to view page');
+      $this->session->set_flashdata('message', 'Not logged in');
       redirect(site_url("/welcome"));
     }
 
     // Load model(s)
     $this->load->model('user_model');
+
+    // Get initial user infomation
+    $key = $this->session->userdata('key');
+    $data = $this->user_model->get_user($key);
 
     // Set Validation Rules
     $this->form_validation->set_rules('phone', 'Phone', 'min_length[10]');
@@ -52,6 +56,7 @@ class User extends CI_Controller
       // Set variables
       $user = array();
 
+      $user['username']     = $data['username'];
       $user['first_name']   = $this->input->post('first_name');
       $user['last_name']    = $this->input->post('last_name');
       $user['phone']        = preg_replace("/[^0-9]/", "", $this->input->post('phone'));
@@ -70,17 +75,12 @@ class User extends CI_Controller
       $this->process($user);
     }
 
-    // Get initial user infomation
-    $key = $this->session->userdata('key');
-    $data = $this->user_model->get_user($key);
-
     // Load Views
     $this->load->view('header');
     $this->load->view('sidebar');
     $this->load->view('user_panel', $data);
     $this->load->view('footer');
     $this->load->view('user_panel-JS');
-
   }
 
   public function process($user)
@@ -125,7 +125,7 @@ class User extends CI_Controller
 
     if (($access == 'user') || ($access == 'admin'))
     {
-      if($this->user_model->set_user($user))
+      if($this->user_model->set_user($this->session->userdata('key'), $user))
       {
         // Send the email
         //$this->email->send();
