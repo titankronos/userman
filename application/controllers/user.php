@@ -123,14 +123,17 @@ class User extends CI_Controller
     // Make sure that it is a valid session
     $access = $this->session->userdata('access');
 
-    if (($access == 'user') || ($access == 'admin') || ($access == 'manager'))
+    if (($access == 'user') || ($access == 'admin'))
     {
-      // Send the email
-      //$this->email->send();
-      //redirect(site_url('/success'));
-      print_r($message);
+      if($this->user_model->set_user($user))
+      {
+        // Send the email
+        //$this->email->send();
+        redirect(site_url('/success'));
+      }
+      // Infomation could not be updated
+      $this->session->set_flashdata('message', 'There was an error submitting data, no changes made (Err# 01)');
+      redirect(site_url("/error"));
     }
-    $this->session->set_flashdata('message', 'There was an error submitting data, no changes made (Err# 01)');
-    redirect(site_url("/error"));
   }
 }
