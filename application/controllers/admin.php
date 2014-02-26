@@ -13,18 +13,27 @@ class Admin extends CI_Controller
       $this->session->set_flashdata('message', 'Not authorized to view page');
       redirect(site_url("/welcome"));
     }
-    // Load models
-    $this->load->model('user_model');
-
-    // Get initial user infomation
-    $key = $this->session->userdata('key');
-    $data = $this->user_model->get_user($key);
-
-    //print_r($data);
 
     // Load Views
     $this->load->view('header');
-    $this->load->view('sidebar');
+    $this->load->view('admin_sidebar');
+    $this->load->view('admin_panel');
+    $this->load->view('footer');
+  }
+
+  function search()
+  {
+    // Load models
+    $this->load->model('user_model');
+
+    // Setup variables
+    $term = $this->input->post('search');
+
+    $data['results'] = $this->user_model->search_users($term);
+
+    // Load Views
+    $this->load->view('header');
+    $this->load->view('admin_sidebar');
     $this->load->view('admin_panel', $data);
     $this->load->view('footer');
   }

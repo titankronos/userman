@@ -46,11 +46,16 @@ class User_model extends CI_Model
 
   function search_users($search_term)
   {
+    $users = array();
     foreach ($this->data as $key=>$item)
     {
-    if (stristr($item, $search_term))
-      return $key;
+      if (stristr($item['username'], $search_term))
+      {
+        $user = $this->get_user($key);
+        array_push($users , $user);
+      }
     }
+    return $users;
   }
 
   function get_user($key)
