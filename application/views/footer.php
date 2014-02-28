@@ -11,6 +11,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="<?=base_url('/static/js/jquery.js')?>"></script>
     <script src="<?=base_url('/static/js/bootstrap-alert.js')?>"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js" ></script>
     <!-- Optional Packages not used currently
     <script src="/static/js/bootstrap-transition.js"></script>
     <script src="/static/js/bootstrap-modal.js"></script>

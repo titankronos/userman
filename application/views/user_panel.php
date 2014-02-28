@@ -8,7 +8,7 @@
 </div>
 <?php endif; ?>
 
-  <form class="well form-horizontal" method="post" action="<?=site_url('user')?>">
+  <form id="contactInfo" class="well form-horizontal" method="post" action="<?=site_url('user')?>">
     <fieldset>
       <legend>Personal Infomation</legend>
       <div class="control-group">
