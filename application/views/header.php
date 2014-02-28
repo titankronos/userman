@@ -17,6 +17,9 @@
       .sidebar-nav {
         padding: 9px 0;
       }
+      .error {
+      	color: red;
+   		}
     </style>
     <link href="<?=base_url('/static/css/bootstrap-responsive.css')?>" rel="stylesheet">
 
