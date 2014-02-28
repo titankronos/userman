@@ -30,7 +30,6 @@ $(document).ready(function() {
 		 		 onfocusout: function(element) { $(element).valid(); },
 		 		 rules: {
             "username": {
-                minlength: 10,
                 required: true
             },
             "first_name": {
